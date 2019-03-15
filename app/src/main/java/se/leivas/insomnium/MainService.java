@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.text.format.Time;
 import android.util.Log;
 
 public class MainService extends Service {
     private int audioID = 1;
+    private boolean timerRunning = true;
 
     @Nullable
     @Override
@@ -23,9 +23,7 @@ public class MainService extends Service {
         Log.i("Where am I", "onStartCommand in MainService");
 
         /*this is where you
-        X                   1. start intro mp3
         2. start location service
-        X                   3. start checking for when mp3 has finished playing
         4. start next when timer is over
          */
         Intent mediaPlayerIntent = new Intent(this, MediaPlayerService.class);
@@ -36,13 +34,6 @@ public class MainService extends Service {
         timer.start();
 
 
-
-        /*
-        while(isServiceRunning(MediaPlayerService.class)){
-            Log.i("service running", "Yes, it's running");
-        }
-        Log.i("service running", "YNO IT STOPPED!!!");
-        */
         return START_STICKY;
     }
 
@@ -52,20 +43,30 @@ public class MainService extends Service {
         Log.i("Where am I", "onDestroy in MainService");
         Intent mediaPlayerIntent = new Intent(this, MediaPlayerService.class);
         stopService(mediaPlayerIntent);
+
+        timerRunning = false;
     }
 
     final class TimerThread implements Runnable{
-
         @Override
         public void run() {
             synchronized(this) {
-                while(true) {
+                while(timerRunning) {
                     try {
                         wait(1000);
                         if(isServiceRunning(MediaPlayerService.class)){
                             Log.i("MediaPlayerService run?", "YES");
                         }else {
+                            int random = (int )(Math.random() * 5000 + 1000);
                             Log.i("MediaPlayerService run?", "NO");
+                            Log.i("Wait for", String.valueOf(random));
+                            wait(random);
+                            if(timerRunning) {
+                                Intent mediaPlayerIntent = new Intent(MainService.this, MediaPlayerService.class);
+                                mediaPlayerIntent.putExtra("id", audioID);
+                                startService(mediaPlayerIntent);
+                            }
+
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -84,6 +85,5 @@ public class MainService extends Service {
         }
         return false;
     }
-
 
 }
