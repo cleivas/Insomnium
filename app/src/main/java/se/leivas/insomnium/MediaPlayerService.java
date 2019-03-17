@@ -24,8 +24,8 @@ public class MediaPlayerService extends Service {
         id = intent.getIntExtra("id", 0);
         Log.i("Where am I", "onStartCommand in MediaPlayerService");
 
-        if(id==1) player = MediaPlayer.create(this, R.raw.test);
-        else if(id==2) player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        if(id==1) player = MediaPlayer.create(this, R.raw.no_10);
+        else if(id==2) player = MediaPlayer.create(this, R.raw.yes_10);
 
         if(player != null) {
             player.start();
