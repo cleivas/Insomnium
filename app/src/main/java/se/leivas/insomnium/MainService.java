@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class MainService extends Service {
-    private int audioID = 1;
+    private int audioID = 0;
     private boolean timerRunning = true;
 
     @Nullable
@@ -22,10 +22,6 @@ public class MainService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.i("Where am I", "onStartCommand in MainService");
 
-        /*this is where you
-        2. start location service
-        4. start next when timer is over
-         */
         Intent mediaPlayerIntent = new Intent(this, MediaPlayerService.class);
         mediaPlayerIntent.putExtra("id", audioID);
         startService(mediaPlayerIntent);
@@ -57,11 +53,22 @@ public class MainService extends Service {
                         if(isServiceRunning(MediaPlayerService.class)){
                             Log.i("MediaPlayerService run?", "YES");
                         }else {
-                            int random = (int )(Math.random() * 5000 + 1000);
+                            Log.i("ID", Integer.toString(audioID));
+                            if(audioID >= 20) stopSelf();
+                            int random;
+
+                            if(audioID == 1 || audioID == 3 || audioID == 6 || audioID == 8 ||
+                                    audioID == 10 || audioID == 12 || audioID == 16){
+                                random = 1;
+                            }
+                            else{
+                               random = (int )(Math.random() * 5000 + 1000);
+                            }
                             Log.i("MediaPlayerService run?", "NO");
                             Log.i("Wait for", String.valueOf(random));
                             wait(random);
                             if(timerRunning) {
+                                audioID++;
                                 Intent mediaPlayerIntent = new Intent(MainService.this, MediaPlayerService.class);
                                 mediaPlayerIntent.putExtra("id", audioID);
                                 startService(mediaPlayerIntent);

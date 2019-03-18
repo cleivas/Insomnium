@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Insomnium</string>
-    <string name="toggleButtonIsOn">Stop Visions</string>
-    <string name="toggleButtonIsOff">Start Visions</string>
-    <string name="notReceivingVisionsTV">Are you sure you\'re ready to receive visions? Are you using headphones? Is the volume turned up? Are you mentally stable?</string>
-    <string name="receivingVisionsTV">Receiving visions</string>
+    <string name="toggleButtonIsOn">STOP</string>
+    <string name="toggleButtonIsOff">START</string>
+    <string name="notReceivingVisionsTV">Use headphones and turn up the volume.</string>
+    <string name="receivingVisionsTV">INSOMNIUM is running </string>
 </resources>
