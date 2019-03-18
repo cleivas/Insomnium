@@ -62,7 +62,7 @@ public class MainService extends Service {
                                 random = 1;
                             }
                             else{
-                               random = (int )(Math.random() * 5000 + 1000);
+                               random = (int )(Math.random() * 10000 + 5000);
                             }
                             Log.i("MediaPlayerService run?", "NO");
                             Log.i("Wait for", String.valueOf(random));
